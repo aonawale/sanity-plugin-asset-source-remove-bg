@@ -1,7 +1,8 @@
 /* eslint-disable react/jsx-no-bind */
+import {Box, Button, Inline, Label, Radio, Select, Stack} from '@sanity/ui'
 import React, {useState} from 'react'
-import {Button, Inline, Label, Radio, Stack} from '@sanity/ui'
-import {FormProps, ImageFormat, ImageSize} from './types'
+
+import {FormProps, ImageFormat, ImageSize, Service} from './types'
 
 const imageFormats = [
   {value: ImageFormat.AUTO, label: 'Auto', name: 'auto'},
@@ -15,25 +16,49 @@ const imageSizes = [
   {value: ImageSize.FULL, label: 'Full', name: 'full'},
 ]
 
+const services: {value: Service; label: string}[] = [
+  {value: 'removeBg', label: 'Remove.bg'},
+  {value: 'pixelCutAi', label: 'PixelCut.ai'},
+  {value: 'photoRoom', label: 'PhotoRoom'},
+]
+
 export default function Form({onSubmit, image, discardImage, useImage}: FormProps) {
   const [format, setFormat] = useState<ImageFormat>(ImageFormat.PNG)
   const [size, setSize] = useState<ImageSize>(ImageSize.PREVIEW)
+  const [service, setService] = useState<Service>('removeBg')
 
   function handleSubmit() {
-    onSubmit({format, size})
+    onSubmit({format, size, service})
   }
 
   return (
     <form>
       <Stack space={5}>
-        {image?.data?.result_b64 ? (
-          <img
-            width={image.data.foreground_width}
-            height={image.data.foreground_height}
-            src={`data:image/png;base64,${image.data?.result_b64}`}
-          />
+        {image?.data?.url ? (
+          <Box style={{display: 'flex', justifyContent: 'center'}}>
+            <img
+              width={image.data.foreground_width}
+              height={image.data.foreground_height}
+              src={image.data.url}
+            />
+          </Box>
         ) : (
           <>
+            <Stack space={4}>
+              <Label size={3}>Service</Label>
+              <Select
+                value={service}
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                  setService(e.target.value as Service)
+                }
+              >
+                {services.map((item) => (
+                  <option value={item.value} key={item.value}>
+                    {item.label}
+                  </option>
+                ))}
+              </Select>
+            </Stack>
             <Stack space={4}>
               <Label size={3}>Image format</Label>
               <Inline space={5}>

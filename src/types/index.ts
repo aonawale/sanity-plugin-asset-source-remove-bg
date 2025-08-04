@@ -1,7 +1,13 @@
 import {AssetSourceComponentProps} from 'sanity'
 
-export interface RemoveBgConfig {
+export interface ServiceConfig {
   apiKey: string
+}
+
+export interface RemoveBgConfig {
+  removeBg?: ServiceConfig
+  pixelCutAi?: ServiceConfig
+  photoRoom?: ServiceConfig
   allowedUserRoles?: string[]
 }
 
@@ -18,13 +24,21 @@ export enum ImageSize {
   FULL = 'full',
   AUTO = 'auto',
 }
+
+export type Service = 'removeBg' | 'pixelCutAi' | 'photoRoom'
+
 export interface RemoveBgPayload {
-  image_url?: string
+  url?: string
   size?: ImageSize
   format?: ImageFormat
-  bg_color?: string
-  bg_image_url?: string
+  service: Service
 }
+
+export type PixelCutAiPayload = {
+  image_url: string
+  format: string
+}
+
 export type Error = {
   title: string
   code?: string
@@ -54,9 +68,21 @@ export interface RemoveBgResponse {
   errors?: Error[]
 }
 
+export interface ImageResponse {
+  data?: {
+    url: string
+    result_b64: string
+    foreground_top: number
+    foreground_left: number
+    foreground_width: number
+    foreground_height: number
+  }
+  errors?: Error[]
+}
+
 export interface FormProps {
   onSubmit: (payload: RemoveBgPayload) => void
-  image: RemoveBgResponse | undefined
+  image: ImageResponse | undefined
   useImage: () => void
   discardImage: () => void
 }

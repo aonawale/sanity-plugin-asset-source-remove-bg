@@ -1,29 +1,46 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable camelcase */
 /* eslint-disable react/jsx-no-bind */
+import {Card, Dialog, Tab, TabList, TabPanel, ThemeProvider} from '@sanity/ui'
+import {buildTheme} from '@sanity/ui/theme'
 import React, {useEffect, useState} from 'react'
-import {ThemeProvider, studioTheme, Dialog, Card, TabList, Tab, TabPanel} from '@sanity/ui'
-import {AccountResponse, RemoveBgPayload, RemoveBgProps, RemoveBgResponse} from './types'
-import {fetchCreditBalance, removeBackground} from './client'
-import Errors from './Errors'
-import CreditBalance from './CreditBalance'
-import Form from './Form'
 
-export default function RemoveBg({apiKey, onSelect, onClose, selectedAssets}: RemoveBgProps) {
+import {fetchCreditBalance, removeBackground} from './client'
+import CreditBalance from './CreditBalance'
+import Errors from './Errors'
+import Form from './Form'
+import {AccountResponse, ImageResponse, RemoveBgPayload, RemoveBgProps} from './types'
+
+const studioTheme = buildTheme()
+
+export default function RemoveBg({
+  removeBg,
+  pixelCutAi,
+  photoRoom,
+  onSelect,
+  onClose,
+  selectedAssets,
+}: RemoveBgProps) {
   const [id, setId] = useState('action')
   const [account, setAccount] = useState<AccountResponse>()
-  const [image, setImage] = useState<RemoveBgResponse>()
+  const [image, setImage] = useState<ImageResponse>()
   const {url} = selectedAssets[0]
 
   useEffect(() => {
-    fetchCreditBalance(apiKey).then(setAccount)
+    if (removeBg?.apiKey) {
+      fetchCreditBalance(removeBg.apiKey).then(setAccount)
+    }
   }, [])
 
   function onSubmit(data: RemoveBgPayload) {
-    removeBackground(apiKey, {
-      image_url: url,
+    removeBackground({
+      url: url,
       size: data.size,
       format: data.format,
+      service: data.service,
+      removeBg,
+      pixelCutAi,
+      photoRoom,
     }).then(setImage)
   }
 
@@ -34,7 +51,7 @@ export default function RemoveBg({apiKey, onSelect, onClose, selectedAssets}: Re
   function handleUse() {
     onSelect([
       {
-        value: `data:image/png;base64,${image?.data?.result_b64}`,
+        value: image?.data?.url || '',
         kind: 'base64',
       },
     ])

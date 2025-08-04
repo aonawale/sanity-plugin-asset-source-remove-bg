@@ -2,73 +2,96 @@
   "name": "sanity-plugin-asset-source-remove-bg",
   "version": "1.0.0",
   "description": "Remove the background of your images with remove.bg API through the sanity studio",
-  "author": {
-    "name": "Rein Undheim",
-    "email": "rein@undheim.io",
-    "url": "https://github.com/Gawdfrey"
+  "keywords": [
+    "sanity",
+    "sanity-plugin"
+  ],
+  "homepage": "https://github.com/aonawale/sanity-plugin-asset-source-remove-bg#readme",
+  "bugs": {
+    "url": "https://github.com/aonawale/sanity-plugin-asset-source-remove-bg/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:aonawale/sanity-plugin-asset-source-remove-bg.git"
   },
   "license": "MIT",
-  "source": "./src/index.tsx",
-  "main": "./lib/cjs/index.js",
-  "module": "./lib/esm/index.js",
-  "types": "./lib/types/index.d.ts",
+  "author": "Rein Undheim <rein@undheim.io>",
+  "sideEffects": false,
+  "type": "commonjs",
   "exports": {
     ".": {
-      "require": "./lib/cjs/index.js",
-      "default": "./lib/esm/index.js"
-    }
+      "source": "./src/index.ts",
+      "import": "./dist/index.mjs",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
   },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
+    "dist",
+    "sanity.json",
     "src",
-    "lib",
-    "v2-incompatible.js",
-    "sanity.json"
+    "v2-incompatible.js"
   ],
   "scripts": {
     "clean": "rimraf lib",
     "lint": "eslint .",
-    "prebuild": "npm run clean && plugin-kit verify-package --silent",
-    "build": "parcel build --no-cache",
-    "watch": "parcel watch",
+    "prebuild": "yarn clean && plugin-kit verify-package --silent",
+    "build": "plugin-kit verify-package --silent && pkg-utils build --strict --check --clean",
+    "watch": "pkg-utils watch --strict",
     "link-watch": "plugin-kit link-watch",
     "prepublishOnly": "npm run build",
-    "semantic-release": "semantic-release"
-  },
-  "repository": {},
-  "engines": {
-    "node": ">=14.0.0"
+    "semantic-release": "semantic-release",
+    "format": "prettier --write --cache --ignore-unknown ."
   },
   "dependencies": {
-    "@sanity/incompatible-plugin": "^0.0.1-studio-v3.1",
-    "@sanity/ui": "^0.37.9",
+    "@sanity/incompatible-plugin": "^1.0.5",
+    "@sanity/ui": "^3.0.5",
     "axios": "^0.27.2",
-    "react": "^17.0.0",
-    "sanity": "^3.0.0-dev-preview.7"
+    "react": "^19.1.0",
+    "sanity": "^4.0.1",
+    "styled-components": "^6.1.19"
   },
   "devDependencies": {
     "@parcel/packager-ts": "^2.6.0",
     "@parcel/transformer-typescript-types": "^2.6.0",
-    "@sanity/plugin-kit": "^0.1.0-v3-studio.1",
+    "@sanity/pkg-utils": "^7.9.20",
+    "@sanity/plugin-kit": "^4.0.19",
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/git": "^10.0.1",
-    "@types/react": "^18.0.14",
-    "@typescript-eslint/eslint-plugin": "^5.28.0",
-    "@typescript-eslint/parser": "^5.28.0",
-    "eslint": "^8.17.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-config-sanity": "^6.0.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.30.0",
-    "eslint-plugin-react-hooks": "^4.6.0",
+    "@types/react": "^19.1.9",
+    "@typescript-eslint/eslint-plugin": "^8.38.0",
+    "@typescript-eslint/parser": "^8.38.0",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-config-sanity": "^7.1.4",
+    "eslint-plugin-prettier": "^5.5.3",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
     "parcel": "^2.6.0",
-    "prettier": "^2.7.1",
+    "prettier": "^3.6.2",
+    "prettier-plugin-packagejson": "^2.5.19",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
     "rimraf": "^3.0.2",
-    "sanity": "2.29.5-purple-unicorn.856",
+    "sanity": "^4.2.0",
     "semantic-release": "^19.0.3",
-    "typescript": "^4.7.3"
+    "styled-components": "^6.1.19",
+    "typescript": "^5.8.3"
   },
   "peerDependencies": {
-    "react": "^17.0.0",
-    "react-dom": "^17.0.0"
+    "react": "^18",
+    "react-dom": "^18",
+    "sanity": "^3"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "module": "./dist/index.mjs",
+  "sanityPlugin": {
+    "verifyPackage": {
+      "deprecatedDependencies": false
+    }
   }
 }

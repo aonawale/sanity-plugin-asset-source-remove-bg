@@ -11,7 +11,7 @@ function hasRole(
   if (!allowedUserRoles) {
     return true
   }
-  return currentUser.roles.some((role: Role) => allowedUserRoles.includes(role.name))
+  return currentUser?.roles.some((role: Role) => allowedUserRoles.includes(role.name))
 }
 
 export const removeBgAssetSourcePlugin = createPlugin<RemoveBgConfig>((config) => {
@@ -24,8 +24,8 @@ export const removeBgAssetSourcePlugin = createPlugin<RemoveBgConfig>((config) =
             return [
               ...prev,
               {
-                name: 'remove-bg',
-                title: 'Remove.bg',
+                name: 'remove-background',
+                title: 'Remove background',
                 component: function component(props: AssetSourceComponentProps) {
                   if (props.selectedAssets.length === 0) {
                     return null
