@@ -18,7 +18,6 @@ const imageSizes = [
 
 const services: {value: Service; label: string}[] = [
   {value: 'removeBg', label: 'Remove.bg'},
-  {value: 'pixelCutAi', label: 'PixelCut.ai'},
   {value: 'photoRoom', label: 'PhotoRoom'},
 ]
 

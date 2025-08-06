@@ -1,12 +1,12 @@
-import React from 'react'
 import {AssetSource, AssetSourceComponentProps, ConfigContext, createPlugin, Role} from 'sanity'
+
 import Icon from './Icon'
 import RemoveBg from './RemoveBg'
 import {RemoveBgConfig} from './types'
 
 function hasRole(
   currentUser: ConfigContext['currentUser'],
-  allowedUserRoles: string[] | undefined
+  allowedUserRoles: string[] | undefined,
 ) {
   if (!allowedUserRoles) {
     return true

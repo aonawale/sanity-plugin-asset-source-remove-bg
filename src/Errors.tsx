@@ -1,5 +1,6 @@
 import {Button, Card, Stack, Text} from '@sanity/ui'
 import React from 'react'
+
 import {Error} from './types'
 
 export default function Errors({errors, onClick}: {errors: Error[]; onClick: () => void}) {

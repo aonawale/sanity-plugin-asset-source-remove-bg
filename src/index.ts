@@ -1,5 +1,3 @@
 import {removeBgAssetSourcePlugin} from './App'
 
-export {
-  removeBgAssetSourcePlugin
-}
+export {removeBgAssetSourcePlugin}

@@ -6,7 +6,6 @@ export interface ServiceConfig {
 
 export interface RemoveBgConfig {
   removeBg?: ServiceConfig
-  pixelCutAi?: ServiceConfig
   photoRoom?: ServiceConfig
   allowedUserRoles?: string[]
 }
@@ -25,7 +24,7 @@ export enum ImageSize {
   AUTO = 'auto',
 }
 
-export type Service = 'removeBg' | 'pixelCutAi' | 'photoRoom'
+export type Service = 'removeBg' | 'photoRoom'
 
 export interface RemoveBgPayload {
   url?: string

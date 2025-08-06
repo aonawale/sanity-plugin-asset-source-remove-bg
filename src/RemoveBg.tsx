@@ -15,7 +15,6 @@ const studioTheme = buildTheme()
 
 export default function RemoveBg({
   removeBg,
-  pixelCutAi,
   photoRoom,
   onSelect,
   onClose,
@@ -39,7 +38,6 @@ export default function RemoveBg({
       format: data.format,
       service: data.service,
       removeBg,
-      pixelCutAi,
       photoRoom,
     }).then(setImage)
   }

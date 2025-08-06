@@ -7,10 +7,6 @@ const removeBgAxiosClient = axios.create({
   baseURL: 'https://api.remove.bg/v1.0',
 })
 
-const pixelCutAiAxiosClient = axios.create({
-  baseURL: 'https://api.developer.pixelcut.ai/v1',
-})
-
 const photoRoomAxiosClient = axios.create({
   baseURL: 'https://sdk.photoroom.com/v1',
 })
@@ -54,39 +50,6 @@ export function removeBgBackground(
     .catch((error) => error.response.data)
 }
 
-export function pixelCutRemoveBackground(
-  apiKey: string,
-  payload: RemoveBgPayload,
-): Promise<ImageResponse> {
-  return pixelCutAiAxiosClient
-    .post(
-      '/remove-background',
-      {
-        image_url: payload.url,
-        format: payload.format,
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-          'X-API-KEY': apiKey,
-        },
-      },
-    )
-    .then((response) => ({
-      data: {
-        ...response.data,
-        url: response.data.result_url,
-      },
-    }))
-    .catch((error) => [
-      {
-        title: error.response.data.error,
-        code: error.response.data.error_code,
-      },
-    ])
-}
-
 export async function photoRoomRemoveBackground(
   apiKey: string,
   payload: RemoveBgPayload,
@@ -104,7 +67,7 @@ export async function photoRoomRemoveBackground(
       headers: {
         Accept: 'application/json',
         'Content-Type': 'multipart/form-data; boundary=---011000010111000001101001',
-        'x-api-key': 'sandbox_sk_pr_default_e426978f37900980629c0d018f410134c4140bbc',
+        'x-api-key': apiKey,
       },
     })
     .then((response) => ({
@@ -128,21 +91,16 @@ export async function photoRoomRemoveBackground(
 export const removeBackground = async (
   payload: RemoveBgPayload & {
     removeBg?: ServiceConfig
-    pixelCutAi?: ServiceConfig
     photoRoom?: ServiceConfig
   },
 ) => {
   const serviceConfig = {
     removeBg: payload.removeBg,
-    pixelCutAi: payload.pixelCutAi,
     photoRoom: payload.photoRoom,
   }
 
   const apiKey = serviceConfig[payload.service]?.apiKey || ''
 
-  if (payload.service === 'pixelCutAi') {
-    return pixelCutRemoveBackground(apiKey, payload)
-  }
   if (payload.service === 'photoRoom') {
     return photoRoomRemoveBackground(apiKey, payload)
   }

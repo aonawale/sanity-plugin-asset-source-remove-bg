@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-no-bind */
+import {Badge, Inline, Stack, Text} from '@sanity/ui'
 import React from 'react'
-import {Stack, Text, Badge, Inline} from '@sanity/ui'
+
 import {AccountResponse} from './types'
 
 function findCreditLevelSeverity(creditLevel: number) {
